@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gemini Assistant</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🧠 Gemini Smart Assistant</h1>
+    <textarea id="user-input" placeholder="Ask me anything..."></textarea>
+    <button onclick="ask()">Send</button>
+    <div id="response"></div>
+  </div>
+
+  <script>
+    async function ask() {
+      const input = document.getElementById("user-input").value;
+      const resDiv = document.getElementById("response");
+      resDiv.innerHTML = "Thinking...";
+      const response = await fetch("/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: input })
+      });
+      const data = await response.json();
+      resDiv.innerHTML = `<p><strong>Gemini:</strong> ${data.response}</p>`;
+    }
+  </script>
+</body>
+</html>
